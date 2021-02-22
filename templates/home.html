@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Current Time</h1>
+        <p>
+            {{ current_time }}
+        </p>
+    <h1>Last Click</h1>
+        <p>
+            <form method="post" action="/last_click">
+                <button type="submit">클릭하기</button>
+            </form>
+        </p>
+        <p>
+            {{ last_time }}
+        </p>
+    <h1>Weather</h1>
+        <p>
+            <img src="{{ weather }}">
+        </p>
+</body>
+</html>
