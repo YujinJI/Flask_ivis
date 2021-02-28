@@ -59,7 +59,7 @@
     # 파싱 작업을 거쳐야 각 요소에 접근하기 쉬워진다.
     ```
   
-    내가 필요로 하는 부분은 날씨에 달라지는 이미지다.
+    내가 필요로 하는 부분은 날씨에 따라 달라지는 이미지다.
     
     ![weather_image](./Image/weather_code.png)
     
@@ -140,7 +140,7 @@
 
 - #### datetime
 
-    파이썬으로 시간을 나타내기 위해서 datetime 모듈을 사용한다
+    파이썬으로 시간을 나타내기 위해서 datetime 모듈을 사용한다.
     
     ```
     from datetime import datetime
@@ -148,7 +148,65 @@
     
 - #### strftime
 
-        
+    시간을 문자열로 나타내기 위해서 strftime() 함수를 사용할 수 있다.  
     
+    ```
+    from datetime import datetime
+    
+    now = datetime.now()
+  
+    print(now.strftime('%Y-%m-%d %H:%M %a'))        # 년-월-일 시:분 요일
+    ```    
+    
+### 3. 버튼 클릭한 마지막 시간 나타내기
 
+- #### 기본 셋팅
+
+    서버를 실행시켰을 때 처음으로 나오는 시간은 서버가 시작된 시간을 나타내게 했다. _서버가 시작되었을 때 현재 시간이랑 지난 버튼 클릭 시간이 같이 나타난다는 뜻이다._
     
+    현재 시간을 나타내는 코드에서 변수만 바꿔, 함수 외부에서 똑같이 작성시켜 주었다.
+    
+    지난 버튼 클릭 시간을 나타내는 함수명은 ```def last_click():```, route 명은 ```/last_click``` 으로 설정했다.
+    
+    ```
+    last_now = datetime.now()                               # 전역변수 
+    last_time = last_now.strftime('%Y-%m-%d %H:%M %a')      # 전역변수 
+    
+    @app.route('/last_click', methods=['post'])     # 데이터는 post 방식으로 전달 
+    def last_click():
+        global last_now                     # 전역변수 last_now 를 사용하겠다고 설정 
+        global last_time                    # 전역변수 last_time 을 사용하겠다고 설정 
+        last_now = datetime.now()                               # last_now 는 전역변수
+        last_time = last_now.strftime('%Y-%m-%d %H:%M %a')      # last_time 은 전역변수
+        return redirect(url_for("home"))    # 함수명이 home 인 곳으로 redirect
+    ``` 
+    
+    ###### 아래는 해당 html 코드를 나타낸다.
+    ```
+    <form method="post" action="/last_click">
+        <button type="submit">클릭하기</button>
+    </form>
+    ```
+  
+    버튼을 클릭했을 때, action 이 /last_click 을 향하게 되어 있다. **즉, 버튼을 클릭 하면 새로고침 되면서 버튼을 클릭한 시간을 나타낸다.**
+    
+### 마무리
+
+```
+@app.route('/')
+def home():
+    now = datetime.now()
+    current_time = now.strftime('%Y-%m-%d %H:%M %a')
+    return render_template("home.html", current_time=current_time, weather=weather(), last_time=last_time)
+                                        # 좌항은 html 에서의 변수명, 우항은 app.py 에서 정의되어있는 변수명 이다.
+```
+
+내가 나타내고자 하는 웹페이지는 하나의 페이지로 모든 정보를 다 담을 수 있었기에, home 이라는 함수에서 다 해결해주었다.
+
+날씨 이미지 같은 경우, 함수를 return 해주는 형식으로 만들었기 때문에 호출만 해주면 되고, last_time 의 경우 전역변수이기 때문에 바로 전달해 줄 수 있었다.
+
+![finsh](./Image/finsh.png)
+![finsh2](./Image/finsh2.png)
+<img src="./Image/finsh.png">
+
+### python 코드는 app.py 에서 살펴볼 수 있고, html 코드는 templates 폴더 > home.html 에서 살펴볼 수 있다.
