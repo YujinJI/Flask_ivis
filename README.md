@@ -205,7 +205,6 @@ def home():
 
 날씨 이미지 같은 경우, 함수를 return 해주는 형식으로 만들었기 때문에 호출만 해주면 되고, last_time 의 경우 전역변수이기 때문에 바로 전달해 줄 수 있었다.
 
-<img src="./Image/finsh.png" width=300 height=500>
-<img src="./Image/finsh2.png" width=300 height=500>
+<img src="./Image/finsh.png" width=300 height=500><img src="./Image/finsh2.png" width=300 height=500>
 
 ### python 코드는 app.py 에서 살펴볼 수 있고, html 코드는 templates 폴더 > home.html 에서 살펴볼 수 있다.
