@@ -95,19 +95,60 @@
     
     **div class="today_area" > div class="main_info" > span 태그에 해당하는 background-image 의 url 을 가져오면 된다.**
     
-    span class="ico_state ws1" 에 들어있는 숫자를 가져와 변수에 저장해 주고, image url 주소에 변수를 합쳐 이미지를 불러오다! 
+    span class="ico_state ws1" 에 들어있는 숫자를 가져와 변수에 저장해 주고, image url 주소에 변수를 합쳐 이미지를 불러온다!
     
-    #### 코드 작성
+- #### "ico_state ws1" 에서 "ws1" 꺼내오기
     
     ```
     titles_by_select = soup.select('div.today_area > div.main_info > span')
   
     klass_name = titles_by_select[0].get('class')[1]
-
-    p = re.compile('ws([0-9]*)')
-    m = p.search(klass_name)
-    svg = m.group(1).zfill(2)
-
-    return 'https://ssl.pstatic.net/sstatic/keypage/outside/scui/weather_new/img/weather_svg/icon_wt_' + svg + '.svg'
     ``` 
+    
+    ![debug](./Image/debug.png)
+    
+    ```title_by_select[0].get('class')[1]``` 을 해주면 'ws5' 를 뽑아오는것을 알 수 있다.
+    
+- #### "ws1" 에서 숫자만 꺼내오기
+    
+    정규 표현식을 이용해 숫자를 꺼내보고자 한다.
+    
+    파이썬은 정규 표현식을 지원하기 위해 re(regular expression의 약어) 모듈을 제공한다. re 모듈은 파이썬을 설치할 때 자동으로 설치되는 기본 라이브러리로 사용 방법은 다음과 같다.
+    
+    ```
+    import re
+    p = re.complie('')      # ''안에는 컴파일 할 문자를 넣는다.
+    ```
   
+    ```
+    p = re.compile('ws([0-9]*)')
+    m = p.search(klass_name)        # search() 는 문자열 전체를 검색하여 정규식과 매치되는지 조사한다.
+    svg = m.group(1).zfill(2)       # group() 은 매치된 문자열을 돌려주고, zfill() 은 0으로 채운다는 뜻이다.
+    ```
+    
+    ###### 0으로 채워야 하는 이유는 이미지 링크에 들어가는 숫자가 '01' 과 같이 들어가기 때문이다.
+    
+    ```
+    return 'https://ssl.pstatic.net/sstatic/keypage/outside/scui/weather_new/img/weather_svg/icon_wt_' + svg + '.svg'
+    ```
+    
+    이제 숫자를 포함한 이미지 링크를 반환하는것까지 성공했다.
+    
+    _[정규 표현식에 대한 자세한 내용](https://wikidocs.net/4308)_
+    
+### 2. 현재 (서버)시간 나타내기
+
+- #### datetime
+
+    파이썬으로 시간을 나타내기 위해서 datetime 모듈을 사용한다
+    
+    ```
+    from datetime import datetime
+    ```
+    
+- #### strftime
+
+        
+    
+
+    
